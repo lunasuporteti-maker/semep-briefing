@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Análise de Necessidades — SEMEP | IAQueAtende</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --primary:       #0D6EFD;
+      --primary-dark:  #0a58ca;
+      --primary-light: #e7f0ff;
+      --text:          #1a1a2e;
+      --text-muted:    #6b7280;
+      --border:        #e5e7eb;
+      --bg:            #f8fafc;
+      --white:         #ffffff;
+      --radius:        12px;
+      --radius-sm:     8px;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    /* ── Header ── */
+    .header {
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      padding: 18px 24px;
+      text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+    }
+    .logo {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--primary);
+      letter-spacing: -0.5px;
+    }
+    .tagline {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 2px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* ── Layout ── */
+    .main {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 32px 16px 56px;
+    }
+
+    /* ── Intro card ── */
+    .intro-card {
+      background: linear-gradient(135deg, #0D6EFD 0%, #1a80ff 100%);
+      color: white;
+      border-radius: var(--radius);
+      padding: 24px 28px;
+      margin-bottom: 24px;
+    }
+    .intro-card p {
+      font-size: 15px;
+      line-height: 1.75;
+      opacity: 0.96;
+    }
+
+    /* ── Form card ── */
+    .form-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: 0 1px 4px rgba(0,0,0,0.06), 0 6px 20px rgba(0,0,0,0.04);
+      overflow: hidden;
+    }
+
+    /* ── Section header ── */
+    .section-header {
+      background: var(--primary-light);
+      padding: 13px 24px;
+      border-top: 1px solid rgba(13,110,253,0.1);
+      border-bottom: 1px solid rgba(13,110,253,0.1);
+    }
+    .section-header h2 {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 0.7px;
+    }
+
+    /* ── Question ── */
+    .question {
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--border);
+    }
+    .question:last-of-type { border-bottom: none; }
+
+    .question-label {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 13px;
+      align-items: flex-start;
+    }
+    .q-number {
+      background: var(--primary);
+      color: white;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11.5px;
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .q-text {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.5;
+    }
+    .required { color: #ef4444; margin-left: 2px; }
+
+    /* ── Inputs ── */
+    input[type="text"],
+    input[type="number"],
+    textarea {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      color: var(--text);
+      background: var(--white);
+      transition: border-color .2s, box-shadow .2s;
+      outline: none;
+      -webkit-appearance: none;
+    }
+    input[type="text"]:focus,
+    input[type="number"]:focus,
+    textarea:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(13,110,253,.12);
+    }
+    textarea { resize: vertical; min-height: 88px; }
+
+    /* ── Radio group ── */
+    .radio-group { display: flex; flex-direction: column; gap: 8px; }
+
+    .radio-option {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 11px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: border-color .15s, background .15s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .radio-option:hover { border-color: var(--primary); background: var(--primary-light); }
+    .radio-option.selected { border-color: var(--primary); background: var(--primary-light); }
+
+    .radio-option input[type="radio"] {
+      accent-color: var(--primary);
+      width: 17px;
+      height: 17px;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    .radio-label { font-size: 14px; color: var(--text); cursor: pointer; line-height: 1.4; }
+
+    /* ── Conditional field ── */
+    .conditional-field {
+      display: none;
+      background: #fffbf0;
+      border-top: none;
+      border-left: 3px solid #f59e0b;
+    }
+    .conditional-field.visible { display: block; }
+
+    /* ── Submit ── */
+    .submit-section {
+      padding: 24px;
+      background: var(--bg);
+      border-top: 1px solid var(--border);
+    }
+    .submit-btn {
+      width: 100%;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: var(--radius-sm);
+      padding: 14px 24px;
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background .2s, transform .1s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .submit-btn:hover  { background: var(--primary-dark); }
+    .submit-btn:active { transform: scale(0.99); }
+
+    /* ── Success card ── */
+    .success-card {
+      display: none;
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: 0 1px 4px rgba(0,0,0,0.06), 0 6px 20px rgba(0,0,0,0.04);
+      overflow: hidden;
+    }
+    .success-card.visible { display: block; }
+
+    .success-top {
+      padding: 44px 32px 28px;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+    }
+    .success-icon {
+      width: 68px;
+      height: 68px;
+      background: #d1fae5;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      font-size: 30px;
+    }
+    .success-title {
+      font-size: 21px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+    .success-message {
+      font-size: 15px;
+      color: var(--text-muted);
+      line-height: 1.75;
+      max-width: 360px;
+      margin: 0 auto;
+    }
+    .success-signature {
+      margin-top: 18px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--primary);
+    }
+
+    /* ── Answers summary ── */
+    .answers-summary {
+      padding: 24px 28px 32px;
+    }
+    .answers-summary-title {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.7px;
+      margin-bottom: 16px;
+    }
+    .answer-row {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      padding: 11px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .answer-row:last-child { border-bottom: none; }
+    .answer-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+    .answer-value {
+      font-size: 14px;
+      color: var(--text);
+      line-height: 1.5;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    /* ── Footer ── */
+    .footer {
+      text-align: center;
+      padding: 28px 16px 24px;
+      color: var(--text-muted);
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 480px) {
+      .header { padding: 14px 16px; }
+      .logo   { font-size: 20px; }
+      .main   { padding: 20px 10px 40px; }
+      .intro-card { padding: 18px 20px; }
+      .intro-card p { font-size: 14px; }
+      .question { padding: 16px 16px; }
+      .submit-section { padding: 16px; }
+      .success-top { padding: 32px 20px 22px; }
+      .answers-summary { padding: 20px 16px 28px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ════════════════ HEADER ════════════════ -->
+  <header class="header">
+    <div class="logo">IAQueAtende</div>
+    <div class="tagline">Análise de Necessidades — SEMEP</div>
+  </header>
+
+  <!-- ════════════════ MAIN ════════════════ -->
+  <main class="main">
+
+    <!-- Intro -->
+    <div class="intro-card">
+      <p>Olá! Para que eu possa montar uma proposta personalizada e real para a SEMEP, preciso entender melhor como a clínica funciona hoje. As respostas abaixo vão me ajudar a construir uma solução que realmente resolve o dia a dia de vocês.</p>
+    </div>
+
+    <!-- ── FORM CARD ── -->
+    <div class="form-card" id="form-card">
+
+      <!-- ▸ Identificação -->
+      <div class="section-header"><h2>Identificação</h2></div>
+
+      <!-- Q1 -->
+      <div class="question">
+        <div class="question-label">
+          <div class="q-number">1</div>
+          <div class="q-text">Nome de quem está respondendo<span class="required">*</span></div>
+        </div>
+        <input type="text" id="q1" name="nome" placeholder="Seu nome completo">
+      </div>
+
+      <!-- Q2 -->
+      <div class="question">
+        <div class="question-label">
+          <div class="q-number">2</div>
+          <div class="q-text">Cargo<span class="required">*</span></div>
+        </div>
+        <input type="text" id="q2" name="cargo" placeholder="Ex: Recepcionista, Diretora, Gerente...">
+      </div>
+
+      <!-- ▸ Estrutura da Clínica -->
+      <div class="section-header"><h2>Estrutura da Clínica</h2></div>
+
+      <!-- Q3 -->
+      <div class="question">
+        <div class="question-label">
+          <div class="q-number">3</div>
+          <div class="q-text">Quantos psicólogos a clínica possui atualmente?<span class="required">*</span></div>
+        </div>
+        <input type="number" id="q3" name="psicologos" min="0" placeholder="Ex: 4">
+      </div>
+
+      <!-- Q4 -->
+      <div class="question">
+        <div class="question-label">
+          <div class="q-number">4</div>
+          <div class="q-text">Os atendimentos são por convênio, particular ou ambos?<span class="required">*</span></div>
+        </div>
+        <div class="radio-group" id="q4-group">
+          <label class="radio-option">
+            <input type="radio" name="tipo_atendimento" value="Convênio">
+            <span class="radio-label">Convênio</span>
+          </label>
+          <label class="radio-option">
+            <input type="radio" name="tipo_atendimento" value="Particular">
+            <span class="radio-label">Particular</span>
+          </label>
+          <label class="radio-option">
+            <input type="radio" name="tipo_atendimento" value="Ambos">
+            <span class="radio-label">Ambos</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Q5 — condicional -->
+      <div class="question conditional-field" id="q5-field">
+        <div class="question-label">
+          <div class="q-number">5</div>
+          <div class="q-text">Quais planos de saúde são aceitos?</div>
+        </div>
+        <textarea id="q5" name="planos" placeholder="Ex: Unimed, Bradesco Saúde, Hapvida, SulAmérica..."></textarea>
+      </div>
+
+      <!-- Q6 -->
+      <div class="question">
+        <div class="question-label">
+          <div class="q-number">6</div>
+          <div class="q-text">Os preços das consultas são informados pelo WhatsApp?<span class="required">*</span></div>
+        </div>
+        <div class="radio-group">
+          <label class="radio-option">
+            <input type="radio" name="precos_whatsapp" value="Sim">
+            <span class="radio-label">Sim</span>
+          </label>
+          <label class="radio-option">
+            <input type="radio" name="precos_whatsapp" value="Não">
+            <span class="radio-label">Não</span>
+          </label>
+          <label class="radio-option">
+            <input type="radio" name="precos_whatsapp" value="Depende do caso">
+            <span class="radio-label">Depende do caso</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Q7 -->
+      <div class="question">
+        <div class="question-label">
+          <div class="q-number">7</div>
+          <div class="q-text">Como funciona o agendamento hoje pelo WhatsApp?<span class="required">*</span></div>
+        </div>
+        <div class="radio-group">
+          <label class="radio-option">
+            <input type="radio" name="agendamento_hoje" value="Só chatbot">
+            <span class="radio-label">Só chatbot</span>
+          </label>
+          <label class="radio-option">
+            <input type="radio" name="agendamento_hoje" value="Recepcionista + chatbot">
+            <span class="radio-label">Recepcionista + chatbot</span>
+          </label>
+          <label class="radio-option">
+            <input type="radio" name="agendamento_hoje" value="Só recepcionista">
+            <span class="radio-label">Só recepcionista</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- ▸ Fluxo de Atendimento -->
+      <div class="section-header"><h2>Fluxo de Atendimento</h2></div>
+
+      <!-- Q8 -->
+      <div class="question">
+        <div class="question-label">
+          <div class="q-number">8</div>
+          <div class="q-text">Sobre os médicos que atendem por ordem de chegada — o paciente é avisado pelo WhatsApp sobre essa modalidade?<span class="required">*</span></div>
+        </div>
+        <div class="radio-group">
+          <label class="radio-option">
+            <input type="radio" name="ordem_chegada" value="Sim, o bot informa">
+            <span class="radio-label">Sim, o bot informa</span>
+          </label>
+          <label class="radio-option">
+            <input type="radio" name="ordem_chegada" value="Não, só descobre na clínica">
+            <span class="radio-label">Não, só descobre na clínica</span>
+          </label>
+          <label class="radio-option">
+            <input type="radio" name="ordem_chegada" value="Alguns médicos sim, outros não">
+            <span class="radio-label">Alguns médicos sim, outros não</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Q9 -->
+      <div class="question">
+        <div class="question-label">
+          <div class="q-number">9</div>
+          <div class="q-text">O paciente de retorno tem médico/psicólogo fixo?<span class="required">*</span></div>
+        </div>
+        <div class="radio-group">
+          <label class="radio-option">
+            <input type="radio" name="medico_fixo" value="Sim, sempre">
+            <span class="radio-label">Sim, sempre</span>
+          </label>
+          <label class="radio-option">
+            <input type="radio" name="medico_fixo" value="Não, pode escolher qualquer um">
+            <span class="radio-label">Não, pode escolher qualquer um</span>
+          </label>
+          <label class="radio-option">
+            <input type="radio" name="medico_fixo" value="Depende da especialidade">
+            <span class="radio-label">Depende da especialidade</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Q10 -->
+      <div class="question">
+        <div class="question-label">
+          <div class="q-number">10</div>
+          <div class="q-text">Existe regra de intervalo mínimo entre consultas ou retorno obrigatório?</div>
+        </div>
+        <textarea id="q10" name="intervalo_minimo" placeholder="Ex: Retorno mínimo de 30 dias, retorno obrigatório para psiquiatria..."></textarea>
+      </div>
+
+      <!-- Q11 -->
+      <div class="question">
+        <div class="question-label">
+          <div class="q-number">11</div>
+          <div class="q-text">Quais são os principais problemas no atendimento via WhatsApp hoje?<span class="required">*</span></div>
+        </div>
+        <textarea id="q11" name="problemas" placeholder="Ex: demora, erros de agendamento, pacientes sem resposta..."></textarea>
+      </div>
+
+      <!-- ▸ Operação -->
+      <div class="section-header"><h2>Operação</h2></div>
+
+      <!-- Q12 -->
+      <div class="question">
+        <div class="question-label">
+          <div class="q-number">12</div>
+          <div class="q-text">Horário de funcionamento da clínica<span class="required">*</span></div>
+        </div>
+        <input type="text" id="q12" name="horario" placeholder="Ex: Seg a Sex 8h às 18h, Sáb 8h às 12h">
+      </div>
+
+      <!-- Q13 -->
+      <div class="question">
+        <div class="question-label">
+          <div class="q-number">13</div>
+          <div class="q-text">A clínica tem interesse em relatórios automáticos de desempenho do agente?<span class="required">*</span></div>
+        </div>
+        <div class="radio-group">
+          <label class="radio-option">
+            <input type="radio" name="relatorios" value="Sim">
+            <span class="radio-label">Sim</span>
+          </label>
+          <label class="radio-option">
+            <input type="radio" name="relatorios" value="Não">
+            <span class="radio-label">Não</span>
+          </label>
+          <label class="radio-option">
+            <input type="radio" name="relatorios" value="Quero saber mais">
+            <span class="radio-label">Quero saber mais</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Q14 -->
+      <div class="question">
+        <div class="question-label">
+          <div class="q-number">14</div>
+          <div class="q-text">Tem mais alguma coisa que queira compartilhar sobre o funcionamento da clínica?</div>
+        </div>
+        <textarea id="q14" name="observacoes" placeholder="Fique à vontade para adicionar qualquer informação que julgue importante..."></textarea>
+      </div>
+
+      <!-- Submit -->
+      <div class="submit-section">
+        <button type="button" class="submit-btn" id="submit-btn" onclick="handleSubmit()">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="22" y1="2" x2="11" y2="13"></line>
+            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+          </svg>
+          Enviar respostas
+        </button>
+      </div>
+
+    </div><!-- /form-card -->
+
+    <!-- ── SUCCESS ── -->
+    <div class="success-card" id="success-card">
+      <div class="success-top">
+        <div class="success-icon">✅</div>
+        <div class="success-title">Respostas recebidas!</div>
+        <div class="success-message">
+          Obrigado! Em breve entrarei em contato com a proposta personalizada para a SEMEP.
+        </div>
+        <div class="success-signature">— Jonathan | IAQueAtende</div>
+      </div>
+      <div class="answers-summary">
+        <div class="answers-summary-title">Suas respostas — guarde esta tela</div>
+        <div id="answers-list"></div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ════════════════ FOOTER ════════════════ -->
+  <footer class="footer">
+    IAQueAtende — Automação e IA para negócios<br>
+    (81) 9 9811-4585 &nbsp;·&nbsp; @iaqueatende
+  </footer>
+
+  <!-- ════════════════ JS ════════════════ -->
+  <script>
+    // Highlight radio selecionado
+    document.querySelectorAll('.radio-option input[type="radio"]').forEach(function(radio) {
+      radio.addEventListener('change', function() {
+        var group = this.closest('.radio-group');
+        group.querySelectorAll('.radio-option').forEach(function(opt) {
+          opt.classList.remove('selected');
+        });
+        this.closest('.radio-option').classList.add('selected');
+      });
+    });
+
+    // Mostrar/ocultar Q5 conforme Q4
+    document.querySelectorAll('input[name="tipo_atendimento"]').forEach(function(radio) {
+      radio.addEventListener('change', function() {
+        var q5 = document.getElementById('q5-field');
+        if (this.value === 'Convênio' || this.value === 'Ambos') {
+          q5.classList.add('visible');
+        } else {
+          q5.classList.remove('visible');
+          document.getElementById('q5').value = '';
+        }
+      });
+    });
+
+    // Envio do formulário
+    function handleSubmit() {
+      // Validação de campos de texto
+      var textFields = [
+        { id: 'q1',  label: 'Nome (pergunta 1)' },
+        { id: 'q2',  label: 'Cargo (pergunta 2)' },
+        { id: 'q3',  label: 'Número de psicólogos (pergunta 3)' },
+        { id: 'q11', label: 'Problemas no WhatsApp (pergunta 11)' },
+        { id: 'q12', label: 'Horário de funcionamento (pergunta 12)' },
+      ];
+      for (var i = 0; i < textFields.length; i++) {
+        var el = document.getElementById(textFields[i].id);
+        if (!el || !el.value.trim()) {
+          alert('Por favor, preencha: ' + textFields[i].label);
+          if (el) el.focus();
+          return;
+        }
+      }
+
+      // Validação de radio obrigatórios
+      var radioFields = [
+        { name: 'tipo_atendimento',  label: 'Tipo de atendimento (pergunta 4)' },
+        { name: 'precos_whatsapp',   label: 'Preços pelo WhatsApp (pergunta 6)' },
+        { name: 'agendamento_hoje',  label: 'Como funciona o agendamento (pergunta 7)' },
+        { name: 'ordem_chegada',     label: 'Aviso de ordem de chegada (pergunta 8)' },
+        { name: 'medico_fixo',       label: 'Médico fixo no retorno (pergunta 9)' },
+        { name: 'relatorios',        label: 'Interesse em relatórios (pergunta 13)' },
+      ];
+      for (var j = 0; j < radioFields.length; j++) {
+        var checked = document.querySelector('input[name="' + radioFields[j].name + '"]:checked');
+        if (!checked) {
+          alert('Por favor, selecione uma opção para: ' + radioFields[j].label);
+          return;
+        }
+      }
+
+      // Coletar respostas
+      var nome       = document.getElementById('q1').value.trim();
+      var cargo      = document.getElementById('q2').value.trim();
+      var psicologos = document.getElementById('q3').value.trim();
+      var tipo       = document.querySelector('input[name="tipo_atendimento"]:checked').value;
+      var planos     = document.getElementById('q5').value.trim() || 'N/A';
+      var precos     = document.querySelector('input[name="precos_whatsapp"]:checked').value;
+      var agendamento= document.querySelector('input[name="agendamento_hoje"]:checked').value;
+      var ordemCheg  = document.querySelector('input[name="ordem_chegada"]:checked').value;
+      var medicoFixo = document.querySelector('input[name="medico_fixo"]:checked').value;
+      var intervalo  = document.getElementById('q10').value.trim() || 'Não informado';
+      var problemas  = document.getElementById('q11').value.trim();
+      var horario    = document.getElementById('q12').value.trim();
+      var relatorios   = document.querySelector('input[name="relatorios"]:checked').value;
+      var observacoes  = document.getElementById('q14').value.trim() || 'Nenhuma observação adicional';
+
+      // Montar corpo do e-mail
+      var body =
+        'ANÁLISE DE NECESSIDADES — SEMEP\n' +
+        '================================\n\n' +
+        '1. Nome: ' + nome + '\n' +
+        '2. Cargo: ' + cargo + '\n' +
+        '3. Psicólogos na clínica: ' + psicologos + '\n' +
+        '4. Tipo de atendimento: ' + tipo + '\n' +
+        '5. Planos aceitos: ' + planos + '\n' +
+        '6. Preços informados pelo WhatsApp: ' + precos + '\n' +
+        '7. Agendamento hoje: ' + agendamento + '\n' +
+        '8. Paciente avisado sobre ordem de chegada: ' + ordemCheg + '\n' +
+        '9. Médico fixo no retorno: ' + medicoFixo + '\n' +
+        '10. Intervalo mínimo entre consultas: ' + intervalo + '\n' +
+        '11. Problemas no atendimento via WhatsApp: ' + problemas + '\n' +
+        '12. Horário de funcionamento: ' + horario + '\n' +
+        '13. Interesse em relatórios automáticos: ' + relatorios + '\n' +
+        '14. Observações adicionais: ' + observacoes;
+
+      // Montar resumo visual na tela de sucesso
+      var answers = [
+        { label: 'Nome',                               value: nome },
+        { label: 'Cargo',                              value: cargo },
+        { label: 'Psicólogos na clínica',              value: psicologos },
+        { label: 'Tipo de atendimento',                value: tipo },
+        { label: 'Planos aceitos',                     value: planos },
+        { label: 'Preços pelo WhatsApp',               value: precos },
+        { label: 'Agendamento hoje',                   value: agendamento },
+        { label: 'Aviso de ordem de chegada',          value: ordemCheg },
+        { label: 'Médico fixo no retorno',             value: medicoFixo },
+        { label: 'Intervalo mínimo entre consultas',   value: intervalo },
+        { label: 'Problemas no WhatsApp',              value: problemas },
+        { label: 'Horário de funcionamento',           value: horario },
+        { label: 'Interesse em relatórios',            value: relatorios },
+        { label: 'Observações adicionais',             value: observacoes },
+      ];
+      var html = '';
+      for (var k = 0; k < answers.length; k++) {
+        html +=
+          '<div class="answer-row">' +
+            '<span class="answer-label">' + answers[k].label + '</span>' +
+            '<span class="answer-value">' + answers[k].value.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</span>' +
+          '</div>';
+      }
+      document.getElementById('answers-list').innerHTML = html;
+
+      // Exibir tela de sucesso antes de tentar abrir email
+      document.getElementById('form-card').style.display = 'none';
+      document.getElementById('success-card').classList.add('visible');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      // Tentar abrir cliente de e-mail (melhor esforço — não bloqueia se falhar)
+      try {
+        var subject = encodeURIComponent('Análise de Necessidades — SEMEP');
+        var bodyEnc = encodeURIComponent(body);
+        var mailtoUrl = 'mailto:jonathan@iaqueatende.com.br?subject=' + subject + '&body=' + bodyEnc;
+        var link = document.createElement('a');
+        link.href = mailtoUrl;
+        link.click();
+      } catch (e) { /* silencioso — dados já estão na tela */ }
+    }
+  </script>
+
+</body>
+</html>
