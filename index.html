@@ -409,6 +409,15 @@
       white-space: nowrap;
     }
 
+    /* ── Contador de caracteres ── */
+    .char-count {
+      text-align: right;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 5px;
+    }
+    .char-count.near { color: #ef4444; font-weight: 600; }
+
     /* ── Footer ── */
     .footer {
       text-align: center;
@@ -894,6 +903,38 @@
       window.addEventListener('scroll', updateProgress, { passive: true });
       window.addEventListener('resize', updateProgress);
       updateProgress();
+    })();
+
+    // Contador de caracteres + limite nos campos longos (espelha os limites do banco)
+    (function() {
+      var limites = {
+        'f-planos': 1000, 'f-exames-quais': 2000, 'f-restricoes': 3000,
+        'f-primeira': 2000, 'f-intervalo': 1000, 'f-cancelamento': 3000,
+        'f-foraescopo': 3000, 'f-receita': 2000, 'f-urgencia': 2000,
+        'f-confirmacao': 3000, 'f-demandas': 4000, 'f-observacoes': 4000
+      };
+      Object.keys(limites).forEach(function(id) {
+        var el = document.getElementById(id);
+        if (!el) return;
+        var max = limites[id];
+        el.setAttribute('maxlength', max);
+        var c = document.createElement('div');
+        c.className = 'char-count';
+        function upd() {
+          var n = el.value.length;
+          c.textContent = n + '/' + max;
+          c.classList.toggle('near', n >= max * 0.9);
+        }
+        el.parentNode.insertBefore(c, el.nextSibling);
+        el.addEventListener('input', upd);
+        upd();
+      });
+      // limite também nos campos curtos (sem contador)
+      var curtos = { 'f-nome': 160, 'f-cargo': 120, 'f-horario': 200 };
+      Object.keys(curtos).forEach(function(id) {
+        var el = document.getElementById(id);
+        if (el) el.setAttribute('maxlength', curtos[id]);
+      });
     })();
 
     // Envio do formulário
