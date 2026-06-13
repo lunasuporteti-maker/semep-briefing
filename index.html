@@ -268,6 +268,68 @@
       color: var(--primary);
     }
 
+    /* ── Próximos passos ── */
+    .next-steps {
+      padding: 26px 28px 4px;
+    }
+    .next-steps-title {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.7px;
+      margin-bottom: 18px;
+    }
+    .next-step {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      margin-bottom: 18px;
+    }
+    .next-step:last-child { margin-bottom: 0; }
+    .next-step .ns-num {
+      background: var(--primary-light);
+      color: var(--primary);
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .next-step .ns-text {
+      font-size: 14px;
+      color: var(--text);
+      line-height: 1.55;
+      padding-top: 3px;
+    }
+    .next-step .ns-text strong { color: var(--text); }
+
+    /* ── Botão WhatsApp ── */
+    .wa-section {
+      padding: 22px 28px 30px;
+    }
+    .wa-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      width: 100%;
+      background: #25D366;
+      color: #fff;
+      text-decoration: none;
+      border-radius: var(--radius-sm);
+      padding: 14px 20px;
+      font-size: 15px;
+      font-weight: 600;
+      transition: background .2s, transform .1s;
+    }
+    .wa-btn:hover  { background: #1ebe5b; }
+    .wa-btn:active { transform: scale(0.99); }
+
     /* ── Answers summary ── */
     .answers-summary {
       padding: 24px 28px 32px;
@@ -303,6 +365,50 @@
       word-break: break-word;
     }
 
+    /* ── Barra de progresso (scroll) ── */
+    .progress-track {
+      position: sticky;
+      top: 59px;
+      z-index: 9;
+      height: 4px;
+      background: var(--border);
+    }
+    .progress-fill {
+      height: 100%;
+      width: 0;
+      background: var(--primary);
+      transition: width .1s linear;
+    }
+
+    /* ── Contador de seção ── */
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .sec-count {
+      font-size: 10.5px;
+      font-weight: 700;
+      color: var(--primary);
+      opacity: 0.7;
+      white-space: nowrap;
+      letter-spacing: 0.3px;
+    }
+
+    /* ── Badge opcional ── */
+    .optional {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text-muted);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 1px 8px;
+      margin-left: 6px;
+      white-space: nowrap;
+    }
+
     /* ── Footer ── */
     .footer {
       text-align: center;
@@ -334,57 +440,53 @@
     <div class="tagline">Análise de Necessidades — SEMEP</div>
   </header>
 
+  <!-- Barra de progresso (preenche conforme rola) -->
+  <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+
   <!-- ════════════════ MAIN ════════════════ -->
   <main class="main">
 
     <!-- Intro -->
     <div class="intro-card">
-      <p>Olá! Para que eu possa montar uma proposta personalizada e real para a SEMEP, preciso entender melhor como a clínica funciona hoje. As respostas abaixo vão me ajudar a construir uma solução que realmente resolve o dia a dia de vocês.</p>
+      <p><strong>Vamos montar o atendimento da SEMEP do jeito certo.</strong><br><br>
+      Estas perguntas servem para entendermos a fundo como a clínica funciona no dia a dia — as regras, os combinados, os "jeitos de fazer" que só quem está aí dentro conhece. É com base nelas que construímos um atendimento de WhatsApp que responde como a própria recepção responderia: com cuidado, no tom certo e sem prometer o que a clínica não faz.<br><br>
+      Não existe resposta errada, e o que você não souber agora a gente ajusta depois. Leva cerca de 10 minutos. Pode escrever do seu jeito, como se estivesse explicando para um funcionário novo.</p>
     </div>
 
     <!-- ── FORM CARD ── -->
     <div class="form-card" id="form-card">
 
-      <!-- ▸ Identificação -->
-      <div class="section-header"><h2>Identificação</h2></div>
+      <!-- ▸ Seção 1 -->
+      <div class="section-header"><h2>Quem é você</h2><span class="sec-count">Seção 1 de 5</span></div>
 
       <!-- Q1 -->
       <div class="question">
         <div class="question-label">
           <div class="q-number">1</div>
-          <div class="q-text">Nome de quem está respondendo<span class="required">*</span></div>
+          <div class="q-text">Para começar: qual o seu nome?<span class="required">*</span></div>
         </div>
-        <input type="text" id="q1" name="nome" placeholder="Seu nome completo">
+        <input type="text" id="f-nome" name="nome" placeholder="Seu nome">
       </div>
 
       <!-- Q2 -->
       <div class="question">
         <div class="question-label">
           <div class="q-number">2</div>
-          <div class="q-text">Cargo<span class="required">*</span></div>
+          <div class="q-text">E qual a sua função na clínica?<span class="required">*</span></div>
         </div>
-        <input type="text" id="q2" name="cargo" placeholder="Ex: Recepcionista, Diretora, Gerente...">
+        <input type="text" id="f-cargo" name="cargo" placeholder="Ex: recepcionista, coordenadora, responsável pelo WhatsApp">
       </div>
 
-      <!-- ▸ Estrutura da Clínica -->
-      <div class="section-header"><h2>Estrutura da Clínica</h2></div>
+      <!-- ▸ Seção 2 -->
+      <div class="section-header"><h2>Como a clínica atende</h2><span class="sec-count">Seção 2 de 5</span></div>
 
       <!-- Q3 -->
       <div class="question">
         <div class="question-label">
           <div class="q-number">3</div>
-          <div class="q-text">Quantos psicólogos a clínica possui atualmente?<span class="required">*</span></div>
+          <div class="q-text">Os atendimentos da clínica são por convênio, particular ou os dois?<span class="required">*</span></div>
         </div>
-        <input type="number" id="q3" name="psicologos" min="0" placeholder="Ex: 4">
-      </div>
-
-      <!-- Q4 -->
-      <div class="question">
-        <div class="question-label">
-          <div class="q-number">4</div>
-          <div class="q-text">Os atendimentos são por convênio, particular ou ambos?<span class="required">*</span></div>
-        </div>
-        <div class="radio-group" id="q4-group">
+        <div class="radio-group" id="tipo-group">
           <label class="radio-option">
             <input type="radio" name="tipo_atendimento" value="Convênio">
             <span class="radio-label">Convênio</span>
@@ -394,35 +496,35 @@
             <span class="radio-label">Particular</span>
           </label>
           <label class="radio-option">
-            <input type="radio" name="tipo_atendimento" value="Ambos">
-            <span class="radio-label">Ambos</span>
+            <input type="radio" name="tipo_atendimento" value="Os dois">
+            <span class="radio-label">Os dois</span>
           </label>
         </div>
       </div>
 
-      <!-- Q5 — condicional -->
-      <div class="question conditional-field" id="q5-field">
+      <!-- Q4 — condicional (planos) -->
+      <div class="question conditional-field" id="planos-field">
         <div class="question-label">
-          <div class="q-number">5</div>
-          <div class="q-text">Quais planos de saúde são aceitos?</div>
+          <div class="q-number">4</div>
+          <div class="q-text">Quais planos de saúde vocês atendem?<span class="optional">opcional</span></div>
         </div>
-        <textarea id="q5" name="planos" placeholder="Ex: Unimed, Bradesco Saúde, Hapvida, SulAmérica..."></textarea>
+        <textarea id="f-planos" name="planos" placeholder="Ex: Unimed, Hapvida, Bradesco Saúde, Cassi. Se algum plano tiver regra especial (só algumas especialidades, precisa de guia...), pode anotar aqui."></textarea>
       </div>
 
-      <!-- Q6 -->
+      <!-- Q5 -->
       <div class="question">
         <div class="question-label">
-          <div class="q-number">6</div>
-          <div class="q-text">Os preços das consultas são informados pelo WhatsApp?<span class="required">*</span></div>
+          <div class="q-number">5</div>
+          <div class="q-text">Quando o paciente pergunta o preço da consulta pelo WhatsApp, a clínica costuma informar?<span class="required">*</span></div>
         </div>
         <div class="radio-group">
           <label class="radio-option">
-            <input type="radio" name="precos_whatsapp" value="Sim">
-            <span class="radio-label">Sim</span>
+            <input type="radio" name="precos_whatsapp" value="Sim, podemos informar">
+            <span class="radio-label">Sim, podemos informar</span>
           </label>
           <label class="radio-option">
-            <input type="radio" name="precos_whatsapp" value="Não">
-            <span class="radio-label">Não</span>
+            <input type="radio" name="precos_whatsapp" value="Não, isso a recepção resolve">
+            <span class="radio-label">Não, isso a recepção resolve</span>
           </label>
           <label class="radio-option">
             <input type="radio" name="precos_whatsapp" value="Depende do caso">
@@ -431,63 +533,68 @@
         </div>
       </div>
 
-      <!-- Q7 -->
+      <!-- Q6 -->
       <div class="question">
         <div class="question-label">
-          <div class="q-number">7</div>
-          <div class="q-text">Como funciona o agendamento hoje pelo WhatsApp?<span class="required">*</span></div>
+          <div class="q-number">6</div>
+          <div class="q-text">Além das consultas, a clínica realiza exames ou procedimentos?<span class="required">*</span></div>
         </div>
-        <div class="radio-group">
+        <div class="radio-group" id="exames-group">
           <label class="radio-option">
-            <input type="radio" name="agendamento_hoje" value="Só chatbot">
-            <span class="radio-label">Só chatbot</span>
+            <input type="radio" name="exames" value="Sim">
+            <span class="radio-label">Sim</span>
           </label>
           <label class="radio-option">
-            <input type="radio" name="agendamento_hoje" value="Recepcionista + chatbot">
-            <span class="radio-label">Recepcionista + chatbot</span>
-          </label>
-          <label class="radio-option">
-            <input type="radio" name="agendamento_hoje" value="Só recepcionista">
-            <span class="radio-label">Só recepcionista</span>
+            <input type="radio" name="exames" value="Não">
+            <span class="radio-label">Não</span>
           </label>
         </div>
       </div>
 
-      <!-- ▸ Fluxo de Atendimento -->
-      <div class="section-header"><h2>Fluxo de Atendimento</h2></div>
+      <!-- Q6b — condicional (quais exames) -->
+      <div class="question conditional-field" id="exames-field">
+        <div class="question-label">
+          <div class="q-number">6</div>
+          <div class="q-text">Quais exames ou procedimentos?</div>
+        </div>
+        <textarea id="f-exames-quais" name="exames_quais" placeholder="Ex: polissonografia, eletroencefalograma (EEG), aplicação de injetável, avaliação neuropsicológica."></textarea>
+      </div>
+
+      <!-- ▸ Seção 3 -->
+      <div class="section-header"><h2>Agendamento e regras de marcação</h2><span class="sec-count">Seção 3 de 5</span></div>
+
+      <!-- Q7 -->
+      <div class="question">
+        <div class="question-label">
+          <div class="q-number">7</div>
+          <div class="q-text">Hoje, como o paciente marca consulta pelo WhatsApp?<span class="required">*</span></div>
+        </div>
+        <div class="radio-group">
+          <label class="radio-option">
+            <input type="radio" name="agendamento_hoje" value="Tudo automático, sem a recepção">
+            <span class="radio-label">Tudo automático, sem a recepção</span>
+          </label>
+          <label class="radio-option">
+            <input type="radio" name="agendamento_hoje" value="A recepção atende junto com o atendimento automático">
+            <span class="radio-label">A recepção atende junto com o atendimento automático</span>
+          </label>
+          <label class="radio-option">
+            <input type="radio" name="agendamento_hoje" value="Só a recepção marca, na mão">
+            <span class="radio-label">Só a recepção marca, na mão</span>
+          </label>
+        </div>
+      </div>
 
       <!-- Q8 -->
       <div class="question">
         <div class="question-label">
           <div class="q-number">8</div>
-          <div class="q-text">Sobre os médicos que atendem por ordem de chegada — o paciente é avisado pelo WhatsApp sobre essa modalidade?<span class="required">*</span></div>
+          <div class="q-text">Quando é um paciente de retorno, ele é atendido sempre pelo mesmo profissional?<span class="required">*</span></div>
         </div>
         <div class="radio-group">
           <label class="radio-option">
-            <input type="radio" name="ordem_chegada" value="Sim, o bot informa">
-            <span class="radio-label">Sim, o bot informa</span>
-          </label>
-          <label class="radio-option">
-            <input type="radio" name="ordem_chegada" value="Não, só descobre na clínica">
-            <span class="radio-label">Não, só descobre na clínica</span>
-          </label>
-          <label class="radio-option">
-            <input type="radio" name="ordem_chegada" value="Alguns médicos sim, outros não">
-            <span class="radio-label">Alguns médicos sim, outros não</span>
-          </label>
-        </div>
-      </div>
-
-      <!-- Q9 -->
-      <div class="question">
-        <div class="question-label">
-          <div class="q-number">9</div>
-          <div class="q-text">O paciente de retorno tem médico/psicólogo fixo?<span class="required">*</span></div>
-        </div>
-        <div class="radio-group">
-          <label class="radio-option">
-            <input type="radio" name="medico_fixo" value="Sim, sempre">
-            <span class="radio-label">Sim, sempre</span>
+            <input type="radio" name="medico_fixo" value="Sim, sempre com o mesmo">
+            <span class="radio-label">Sim, sempre com o mesmo</span>
           </label>
           <label class="radio-option">
             <input type="radio" name="medico_fixo" value="Não, pode escolher qualquer um">
@@ -500,65 +607,153 @@
         </div>
       </div>
 
+      <!-- Q9 -->
+      <div class="question">
+        <div class="question-label">
+          <div class="q-number">9</div>
+          <div class="q-text">Algum profissional atende só um tipo específico de paciente, ou tem regras próprias?<span class="optional">opcional</span></div>
+        </div>
+        <textarea id="f-restricoes" name="restricoes_perfil" placeholder="Ex: Dr. Fulano atende só adultos; Dra. Beltrana atende crianças a partir de 6 anos; psiquiatra X não atende gestantes; primeira consulta só às terças e quintas."></textarea>
+      </div>
+
       <!-- Q10 -->
       <div class="question">
         <div class="question-label">
           <div class="q-number">10</div>
-          <div class="q-text">Existe regra de intervalo mínimo entre consultas ou retorno obrigatório?</div>
+          <div class="q-text">A primeira consulta funciona diferente do retorno?<span class="optional">opcional</span></div>
         </div>
-        <textarea id="q10" name="intervalo_minimo" placeholder="Ex: Retorno mínimo de 30 dias, retorno obrigatório para psiquiatria..."></textarea>
+        <textarea id="f-primeira" name="primeira_retorno" placeholder="Ex: a primeira consulta é mais longa e tem valor diferente; o retorno precisa ser em até 30 dias; na primeira vez há uma triagem antes de marcar."></textarea>
       </div>
 
       <!-- Q11 -->
       <div class="question">
         <div class="question-label">
           <div class="q-number">11</div>
-          <div class="q-text">Quais são os principais problemas no atendimento via WhatsApp hoje?<span class="required">*</span></div>
+          <div class="q-text">Existe alguma regra de prazo entre as consultas — como tempo mínimo para retornar ou retorno obrigatório?<span class="optional">opcional</span></div>
         </div>
-        <textarea id="q11" name="problemas" placeholder="Ex: demora, erros de agendamento, pacientes sem resposta..."></textarea>
+        <textarea id="f-intervalo" name="intervalo_minimo" placeholder="Ex: o retorno precisa ser feito em até 30 dias para manter o valor de retorno; depois desse prazo, conta como consulta nova."></textarea>
       </div>
-
-      <!-- ▸ Operação -->
-      <div class="section-header"><h2>Operação</h2></div>
 
       <!-- Q12 -->
       <div class="question">
         <div class="question-label">
           <div class="q-number">12</div>
-          <div class="q-text">Horário de funcionamento da clínica<span class="required">*</span></div>
+          <div class="q-text">Como funcionam o cancelamento, a remarcação e os casos de falta ou atraso?<span class="required">*</span></div>
         </div>
-        <input type="text" id="q12" name="horario" placeholder="Ex: Seg a Sex 8h às 18h, Sáb 8h às 12h">
+        <textarea id="f-cancelamento" name="cancelamento" placeholder="Ex: cancelamento com no mínimo 24h de antecedência; tolerância de 15 min de atraso, depois remarca; faltar sem avisar pode gerar cobrança ou perda do horário."></textarea>
       </div>
 
       <!-- Q13 -->
       <div class="question">
         <div class="question-label">
           <div class="q-number">13</div>
-          <div class="q-text">A clínica tem interesse em relatórios automáticos de desempenho do agente?<span class="required">*</span></div>
+          <div class="q-text">Para reservar o horário, a clínica pede algum sinal ou pagamento antecipado?<span class="required">*</span></div>
         </div>
         <div class="radio-group">
           <label class="radio-option">
-            <input type="radio" name="relatorios" value="Sim">
-            <span class="radio-label">Sim</span>
+            <input type="radio" name="sinal_antecipado" value="Sim, sempre">
+            <span class="radio-label">Sim, sempre</span>
+          </label>
+          <label class="radio-option">
+            <input type="radio" name="sinal_antecipado" value="Não">
+            <span class="radio-label">Não</span>
+          </label>
+          <label class="radio-option">
+            <input type="radio" name="sinal_antecipado" value="Depende do caso">
+            <span class="radio-label">Depende do caso</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- ▸ Seção 4 -->
+      <div class="section-header"><h2>Situações que pedem cuidado</h2><span class="sec-count">Seção 4 de 5</span></div>
+
+      <!-- Q14 -->
+      <div class="question">
+        <div class="question-label">
+          <div class="q-number">14</div>
+          <div class="q-text">Tem algum atendimento — ou algum profissional — que deve ir direto para a recepção, sem o atendimento automático tratar?<span class="optional">opcional</span></div>
+        </div>
+        <textarea id="f-foraescopo" name="fora_escopo" placeholder="Ex: paciente do Dr. Fulano sempre fala direto com a recepção; pedidos de relatório para perícia; casos de menores de idade sem responsável."></textarea>
+      </div>
+
+      <!-- Q15 -->
+      <div class="question">
+        <div class="question-label">
+          <div class="q-number">15</div>
+          <div class="q-text">Quando o paciente pede receita ou atestado pelo WhatsApp, como a clínica lida com isso hoje?<span class="optional">opcional</span></div>
+        </div>
+        <textarea id="f-receita" name="receita_atestado" placeholder="Ex: pedimos para o paciente agendar um retorno; receita de controle só com o médico em consulta; atestado é retirado na recepção."></textarea>
+      </div>
+
+      <!-- Q16 -->
+      <div class="question">
+        <div class="question-label">
+          <div class="q-number">16</div>
+          <div class="q-text">Quando chega uma mensagem de urgência — um paciente em crise ou em risco — como a clínica quer que seja tratado? O atendimento deve ir na hora para uma pessoa?<span class="required">*</span></div>
+        </div>
+        <textarea id="f-urgencia" name="urgencia" placeholder="Ex: qualquer menção a crise, surto ou risco deve chamar a recepção imediatamente e orientar o paciente a ligar para X / procurar o CAPS ou o SAMU 192."></textarea>
+      </div>
+
+      <!-- ▸ Seção 5 -->
+      <div class="section-header"><h2>Confirmação e funcionamento</h2><span class="sec-count">Seção 5 de 5</span></div>
+
+      <!-- Q17 -->
+      <div class="question">
+        <div class="question-label">
+          <div class="q-number">17</div>
+          <div class="q-text">Hoje a clínica confirma a presença do paciente antes da consulta? Como isso é feito — e o que costuma acontecer quando o paciente não confirma ou não responde?<span class="required">*</span></div>
+        </div>
+        <textarea id="f-confirmacao" name="confirmacao_presenca" placeholder="Ex: ligamos no dia anterior; quando não responde, mantemos o horário até X e depois liberamos para a fila de espera. Conte como é hoje, mesmo que seja improvisado."></textarea>
+      </div>
+
+      <!-- Q18 -->
+      <div class="question">
+        <div class="question-label">
+          <div class="q-number">18</div>
+          <div class="q-text">Qual o horário de funcionamento da clínica?<span class="required">*</span></div>
+        </div>
+        <input type="text" id="f-horario" name="horario" placeholder="Ex: Seg a sex 7h às 18h, sáb 8h às 12h (se o horário do WhatsApp for diferente, anote)">
+      </div>
+
+      <!-- Q19 -->
+      <div class="question">
+        <div class="question-label">
+          <div class="q-number">19</div>
+          <div class="q-text">A clínica gostaria de receber relatórios automáticos sobre o atendimento (consultas marcadas, confirmações, perguntas mais comuns)?<span class="required">*</span></div>
+        </div>
+        <div class="radio-group">
+          <label class="radio-option">
+            <input type="radio" name="relatorios" value="Sim, tenho interesse">
+            <span class="radio-label">Sim, tenho interesse</span>
           </label>
           <label class="radio-option">
             <input type="radio" name="relatorios" value="Não">
             <span class="radio-label">Não</span>
           </label>
           <label class="radio-option">
-            <input type="radio" name="relatorios" value="Quero saber mais">
-            <span class="radio-label">Quero saber mais</span>
+            <input type="radio" name="relatorios" value="Quero entender melhor como funciona">
+            <span class="radio-label">Quero entender melhor como funciona</span>
           </label>
         </div>
       </div>
 
-      <!-- Q14 -->
+      <!-- Q20 -->
       <div class="question">
         <div class="question-label">
-          <div class="q-number">14</div>
-          <div class="q-text">Tem mais alguma coisa que queira compartilhar sobre o funcionamento da clínica?</div>
+          <div class="q-number">20</div>
+          <div class="q-text">Quais são as 3 ou 4 coisas que os pacientes mais pedem ou perguntam no WhatsApp?<span class="optional">opcional</span></div>
         </div>
-        <textarea id="q14" name="observacoes" placeholder="Fique à vontade para adicionar qualquer informação que julgue importante..."></textarea>
+        <textarea id="f-demandas" name="demandas_comuns" placeholder="Ex: valor da consulta, se atende meu convênio, como remarcar, horário disponível com determinado médico, endereço da clínica."></textarea>
+      </div>
+
+      <!-- Q21 -->
+      <div class="question">
+        <div class="question-label">
+          <div class="q-number">21</div>
+          <div class="q-text">Tem mais alguma coisa sobre o funcionamento da clínica que você queira nos contar?<span class="optional">opcional</span></div>
+        </div>
+        <textarea id="f-observacoes" name="observacoes" placeholder="Ex: algum jeito de falar que combina com a clínica, combinados que só a equipe conhece, coisas que já deram errado antes e que vocês não querem repetir."></textarea>
       </div>
 
       <!-- Submit -->
@@ -577,16 +772,42 @@
     <!-- ── SUCCESS ── -->
     <div class="success-card" id="success-card">
       <div class="success-top">
-        <div class="success-icon">✅</div>
-        <div class="success-title">Respostas recebidas!</div>
+        <div class="success-icon">🚀</div>
+        <div class="success-title">Recebido! Agora é com a gente.</div>
         <div class="success-message">
-          Obrigado! Em breve entrarei em contato com a proposta personalizada para a SEMEP.
+          Muito obrigado por compartilhar como a SEMEP funciona. A partir daqui, pode deixar com a gente: vamos analisar cada detalhe com cuidado e desenhar a melhor solução pra clínica — feita sob medida pra resolver o dia a dia de vocês de verdade.
         </div>
         <div class="success-signature">— Jonathan | IAQueAtende</div>
       </div>
+
+      <div class="next-steps">
+        <div class="next-steps-title">O que acontece agora</div>
+        <div class="next-step">
+          <div class="ns-num">1</div>
+          <div class="ns-text">Vou <strong>analisar suas respostas</strong> uma a uma, entendendo a fundo a rotina da SEMEP.</div>
+        </div>
+        <div class="next-step">
+          <div class="ns-num">2</div>
+          <div class="ns-text">Monto uma <strong>proposta sob medida</strong> — nada de solução genérica de prateleira.</div>
+        </div>
+        <div class="next-step">
+          <div class="ns-num">3</div>
+          <div class="ns-text">Entro em contato pra <strong>apresentar a solução</strong> e tirar todas as dúvidas, com calma.</div>
+        </div>
+      </div>
+
       <div class="answers-summary">
         <div class="answers-summary-title">Suas respostas — guarde esta tela</div>
         <div id="answers-list"></div>
+      </div>
+
+      <div class="wa-section">
+        <a class="wa-btn" href="https://wa.me/5581998114585?text=Ol%C3%A1%20Jonathan!%20Acabei%20de%20enviar%20o%20formul%C3%A1rio%20da%20SEMEP." target="_blank" rel="noopener">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.817 11.817 0 018.413 3.488 11.824 11.824 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 001.51 5.26l-.999 3.648 3.738-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
+          </svg>
+          Falar com Jonathan no WhatsApp
+        </a>
       </div>
     </div>
 
@@ -635,28 +856,56 @@
       });
     });
 
-    // Mostrar/ocultar Q5 conforme Q4
+    // Mostrar/ocultar planos (Q4) conforme tipo de atendimento (Q3)
     document.querySelectorAll('input[name="tipo_atendimento"]').forEach(function(radio) {
       radio.addEventListener('change', function() {
-        var q5 = document.getElementById('q5-field');
-        if (this.value === 'Convênio' || this.value === 'Ambos') {
-          q5.classList.add('visible');
+        var campo = document.getElementById('planos-field');
+        if (this.value === 'Convênio' || this.value === 'Os dois') {
+          campo.classList.add('visible');
         } else {
-          q5.classList.remove('visible');
-          document.getElementById('q5').value = '';
+          campo.classList.remove('visible');
+          document.getElementById('f-planos').value = '';
         }
       });
     });
 
+    // Mostrar/ocultar "quais exames" (Q6) conforme resposta de exames
+    document.querySelectorAll('input[name="exames"]').forEach(function(radio) {
+      radio.addEventListener('change', function() {
+        var campo = document.getElementById('exames-field');
+        if (this.value === 'Sim') {
+          campo.classList.add('visible');
+        } else {
+          campo.classList.remove('visible');
+          document.getElementById('f-exames-quais').value = '';
+        }
+      });
+    });
+
+    // Barra de progresso conforme rolagem
+    (function() {
+      var pf = document.getElementById('progress-fill');
+      function updateProgress() {
+        var h = document.documentElement;
+        var max = h.scrollHeight - h.clientHeight;
+        var pct = max > 0 ? (h.scrollTop / max) * 100 : 0;
+        pf.style.width = pct + '%';
+      }
+      window.addEventListener('scroll', updateProgress, { passive: true });
+      window.addEventListener('resize', updateProgress);
+      updateProgress();
+    })();
+
     // Envio do formulário
     async function handleSubmit() {
-      // Validação de campos de texto
+      // Validação de campos de texto obrigatórios
       var textFields = [
-        { id: 'q1',  label: 'Nome (pergunta 1)' },
-        { id: 'q2',  label: 'Cargo (pergunta 2)' },
-        { id: 'q3',  label: 'Número de psicólogos (pergunta 3)' },
-        { id: 'q11', label: 'Problemas no WhatsApp (pergunta 11)' },
-        { id: 'q12', label: 'Horário de funcionamento (pergunta 12)' },
+        { id: 'f-nome',        label: 'Seu nome (pergunta 1)' },
+        { id: 'f-cargo',       label: 'Sua função (pergunta 2)' },
+        { id: 'f-cancelamento',label: 'Cancelamento, remarcação e falta (pergunta 12)' },
+        { id: 'f-urgencia',    label: 'Mensagens de urgência (pergunta 16)' },
+        { id: 'f-confirmacao', label: 'Confirmação de presença (pergunta 17)' },
+        { id: 'f-horario',     label: 'Horário de funcionamento (pergunta 18)' },
       ];
       for (var i = 0; i < textFields.length; i++) {
         var el = document.getElementById(textFields[i].id);
@@ -669,12 +918,13 @@
 
       // Validação de radio obrigatórios
       var radioFields = [
-        { name: 'tipo_atendimento',  label: 'Tipo de atendimento (pergunta 4)' },
-        { name: 'precos_whatsapp',   label: 'Preços pelo WhatsApp (pergunta 6)' },
-        { name: 'agendamento_hoje',  label: 'Como funciona o agendamento (pergunta 7)' },
-        { name: 'ordem_chegada',     label: 'Aviso de ordem de chegada (pergunta 8)' },
-        { name: 'medico_fixo',       label: 'Médico fixo no retorno (pergunta 9)' },
-        { name: 'relatorios',        label: 'Interesse em relatórios (pergunta 13)' },
+        { name: 'tipo_atendimento',  label: 'Convênio/particular (pergunta 3)' },
+        { name: 'precos_whatsapp',   label: 'Preços pelo WhatsApp (pergunta 5)' },
+        { name: 'exames',            label: 'Exames ou procedimentos (pergunta 6)' },
+        { name: 'agendamento_hoje',  label: 'Como o paciente marca hoje (pergunta 7)' },
+        { name: 'medico_fixo',       label: 'Profissional fixo no retorno (pergunta 8)' },
+        { name: 'sinal_antecipado',  label: 'Sinal / pagamento antecipado (pergunta 13)' },
+        { name: 'relatorios',        label: 'Interesse em relatórios (pergunta 19)' },
       ];
       for (var j = 0; j < radioFields.length; j++) {
         var checked = document.querySelector('input[name="' + radioFields[j].name + '"]:checked');
@@ -684,21 +934,36 @@
         }
       }
 
+      // Se realiza exames, exigir "quais"
+      var exames = document.querySelector('input[name="exames"]:checked').value;
+      if (exames === 'Sim' && !document.getElementById('f-exames-quais').value.trim()) {
+        alert('Por favor, informe quais exames ou procedimentos (pergunta 6).');
+        document.getElementById('f-exames-quais').focus();
+        return;
+      }
+
       // Coletar respostas
-      var nome       = document.getElementById('q1').value.trim();
-      var cargo      = document.getElementById('q2').value.trim();
-      var psicologos = document.getElementById('q3').value.trim();
-      var tipo       = document.querySelector('input[name="tipo_atendimento"]:checked').value;
-      var planos     = document.getElementById('q5').value.trim() || 'N/A';
-      var precos     = document.querySelector('input[name="precos_whatsapp"]:checked').value;
-      var agendamento= document.querySelector('input[name="agendamento_hoje"]:checked').value;
-      var ordemCheg  = document.querySelector('input[name="ordem_chegada"]:checked').value;
-      var medicoFixo = document.querySelector('input[name="medico_fixo"]:checked').value;
-      var intervalo  = document.getElementById('q10').value.trim() || 'Não informado';
-      var problemas  = document.getElementById('q11').value.trim();
-      var horario    = document.getElementById('q12').value.trim();
-      var relatorios   = document.querySelector('input[name="relatorios"]:checked').value;
-      var observacoes  = document.getElementById('q14').value.trim() || 'Nenhuma observação adicional';
+      var nome        = document.getElementById('f-nome').value.trim();
+      var cargo       = document.getElementById('f-cargo').value.trim();
+      var tipo        = document.querySelector('input[name="tipo_atendimento"]:checked').value;
+      var planos      = document.getElementById('f-planos').value.trim() || 'N/A';
+      var precos      = document.querySelector('input[name="precos_whatsapp"]:checked').value;
+      var examesQuais = document.getElementById('f-exames-quais').value.trim() || (exames === 'Não' ? 'Não realiza' : 'Não informado');
+      var agendamento = document.querySelector('input[name="agendamento_hoje"]:checked').value;
+      var medicoFixo  = document.querySelector('input[name="medico_fixo"]:checked').value;
+      var restricoes  = document.getElementById('f-restricoes').value.trim() || 'Não informado';
+      var primeiraRet = document.getElementById('f-primeira').value.trim() || 'Não informado';
+      var intervalo   = document.getElementById('f-intervalo').value.trim() || 'Não informado';
+      var cancelamento= document.getElementById('f-cancelamento').value.trim();
+      var sinal       = document.querySelector('input[name="sinal_antecipado"]:checked').value;
+      var foraEscopo  = document.getElementById('f-foraescopo').value.trim() || 'Não informado';
+      var receitaAtest= document.getElementById('f-receita').value.trim() || 'Não informado';
+      var urgencia    = document.getElementById('f-urgencia').value.trim();
+      var confirmacao = document.getElementById('f-confirmacao').value.trim();
+      var horario     = document.getElementById('f-horario').value.trim();
+      var relatorios  = document.querySelector('input[name="relatorios"]:checked').value;
+      var demandas    = document.getElementById('f-demandas').value.trim() || 'Não informado';
+      var observacoes = document.getElementById('f-observacoes').value.trim() || 'Nenhuma observação adicional';
 
       // ── Gravar no Supabase (única via de persistência) ──
       var btn = document.getElementById('submit-btn');
@@ -709,11 +974,13 @@
       btn.innerHTML = 'Enviando...';
       try {
         await rpc('salvar_briefing_semep', {
-          p_nome: nome, p_cargo: cargo, p_psicologos: psicologos, p_tipo: tipo,
-          p_planos: planos, p_precos: precos, p_agendamento: agendamento,
-          p_ordem: ordemCheg, p_medico_fixo: medicoFixo, p_intervalo: intervalo,
-          p_problemas: problemas, p_horario: horario, p_relatorios: relatorios,
-          p_observacoes: observacoes
+          p_nome: nome, p_cargo: cargo, p_tipo: tipo, p_planos: planos, p_precos: precos,
+          p_exames: exames, p_exames_quais: examesQuais, p_agendamento: agendamento,
+          p_medico_fixo: medicoFixo, p_restricoes: restricoes, p_primeira: primeiraRet,
+          p_intervalo: intervalo, p_cancelamento: cancelamento, p_sinal: sinal,
+          p_fora_escopo: foraEscopo, p_receita_atestado: receitaAtest, p_urgencia: urgencia,
+          p_confirmacao: confirmacao, p_horario: horario, p_relatorios: relatorios,
+          p_demandas: demandas, p_observacoes: observacoes
         });
       } catch (err) {
         btn.disabled = false;
@@ -727,18 +994,26 @@
       // Montar resumo visual na tela de sucesso
       var answers = [
         { label: 'Nome',                               value: nome },
-        { label: 'Cargo',                              value: cargo },
-        { label: 'Psicólogos na clínica',              value: psicologos },
+        { label: 'Função na clínica',                  value: cargo },
         { label: 'Tipo de atendimento',                value: tipo },
         { label: 'Planos aceitos',                     value: planos },
-        { label: 'Preços pelo WhatsApp',               value: precos },
-        { label: 'Agendamento hoje',                   value: agendamento },
-        { label: 'Aviso de ordem de chegada',          value: ordemCheg },
-        { label: 'Médico fixo no retorno',             value: medicoFixo },
-        { label: 'Intervalo mínimo entre consultas',   value: intervalo },
-        { label: 'Problemas no WhatsApp',              value: problemas },
+        { label: 'Informa preço no WhatsApp',          value: precos },
+        { label: 'Realiza exames/procedimentos',       value: exames },
+        { label: 'Quais exames/procedimentos',         value: examesQuais },
+        { label: 'Como o paciente marca hoje',         value: agendamento },
+        { label: 'Profissional fixo no retorno',       value: medicoFixo },
+        { label: 'Restrições de perfil por profissional', value: restricoes },
+        { label: 'Primeira consulta x retorno',        value: primeiraRet },
+        { label: 'Prazo entre consultas',              value: intervalo },
+        { label: 'Cancelamento, remarcação e falta',   value: cancelamento },
+        { label: 'Sinal / pagamento antecipado',       value: sinal },
+        { label: 'Vai direto para a recepção',         value: foraEscopo },
+        { label: 'Receita e atestado',                 value: receitaAtest },
+        { label: 'Urgência / emergência',              value: urgencia },
+        { label: 'Confirmação de presença',            value: confirmacao },
         { label: 'Horário de funcionamento',           value: horario },
         { label: 'Interesse em relatórios',            value: relatorios },
+        { label: 'Demandas mais comuns',               value: demandas },
         { label: 'Observações adicionais',             value: observacoes },
       ];
       var html = '';
