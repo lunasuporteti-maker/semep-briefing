@@ -600,6 +600,30 @@
 
   <!-- ════════════════ JS ════════════════ -->
   <script>
+    // ── Supabase (mesma instância do site IAQueAtende) ──
+    // A gravação passa SOMENTE pela função RPC salvar_briefing_semep (SECURITY DEFINER).
+    // A anon key é pública por design; não há acesso direto à tabela.
+    const SUPABASE_URL = "https://supabase.1.iaqueatende.com.br";
+    const SUPABASE_KEY = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJzdXBhYmFzZSIsImlhdCI6MTc2MzgxNTAyMCwiZXhwIjo0OTE5NDg4NjIwLCJyb2xlIjoiYW5vbiJ9.lptFCzkpmpC31IBE0BszkB-Z8VXZ6KAmN9VtaRqCAUo";
+
+    async function rpc(fn, args = {}) {
+      const res = await fetch(SUPABASE_URL + "/rest/v1/rpc/" + fn, {
+        method: "POST",
+        headers: {
+          "apikey": SUPABASE_KEY,
+          "Authorization": "Bearer " + SUPABASE_KEY,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(args)
+      });
+      if (!res.ok) {
+        let msg = "Erro " + res.status;
+        try { const j = await res.json(); if (j && j.message) msg = j.message; } catch (e) {}
+        throw new Error(msg);
+      }
+      return res.json();
+    }
+
     // Highlight radio selecionado
     document.querySelectorAll('.radio-option input[type="radio"]').forEach(function(radio) {
       radio.addEventListener('change', function() {
@@ -625,7 +649,7 @@
     });
 
     // Envio do formulário
-    function handleSubmit() {
+    async function handleSubmit() {
       // Validação de campos de texto
       var textFields = [
         { id: 'q1',  label: 'Nome (pergunta 1)' },
@@ -676,24 +700,29 @@
       var relatorios   = document.querySelector('input[name="relatorios"]:checked').value;
       var observacoes  = document.getElementById('q14').value.trim() || 'Nenhuma observação adicional';
 
-      // Montar corpo do e-mail
-      var body =
-        'ANÁLISE DE NECESSIDADES — SEMEP\n' +
-        '================================\n\n' +
-        '1. Nome: ' + nome + '\n' +
-        '2. Cargo: ' + cargo + '\n' +
-        '3. Psicólogos na clínica: ' + psicologos + '\n' +
-        '4. Tipo de atendimento: ' + tipo + '\n' +
-        '5. Planos aceitos: ' + planos + '\n' +
-        '6. Preços informados pelo WhatsApp: ' + precos + '\n' +
-        '7. Agendamento hoje: ' + agendamento + '\n' +
-        '8. Paciente avisado sobre ordem de chegada: ' + ordemCheg + '\n' +
-        '9. Médico fixo no retorno: ' + medicoFixo + '\n' +
-        '10. Intervalo mínimo entre consultas: ' + intervalo + '\n' +
-        '11. Problemas no atendimento via WhatsApp: ' + problemas + '\n' +
-        '12. Horário de funcionamento: ' + horario + '\n' +
-        '13. Interesse em relatórios automáticos: ' + relatorios + '\n' +
-        '14. Observações adicionais: ' + observacoes;
+      // ── Gravar no Supabase (única via de persistência) ──
+      var btn = document.getElementById('submit-btn');
+      var btnHtml = btn.innerHTML;
+      btn.disabled = true;
+      btn.style.opacity = '0.7';
+      btn.style.cursor = 'wait';
+      btn.innerHTML = 'Enviando...';
+      try {
+        await rpc('salvar_briefing_semep', {
+          p_nome: nome, p_cargo: cargo, p_psicologos: psicologos, p_tipo: tipo,
+          p_planos: planos, p_precos: precos, p_agendamento: agendamento,
+          p_ordem: ordemCheg, p_medico_fixo: medicoFixo, p_intervalo: intervalo,
+          p_problemas: problemas, p_horario: horario, p_relatorios: relatorios,
+          p_observacoes: observacoes
+        });
+      } catch (err) {
+        btn.disabled = false;
+        btn.style.opacity = '';
+        btn.style.cursor = '';
+        btn.innerHTML = btnHtml;
+        alert('Não consegui enviar suas respostas agora. Verifique sua conexão e tente novamente.\n\n(' + (err && err.message ? err.message : 'erro desconhecido') + ')');
+        return;
+      }
 
       // Montar resumo visual na tela de sucesso
       var answers = [
@@ -722,20 +751,10 @@
       }
       document.getElementById('answers-list').innerHTML = html;
 
-      // Exibir tela de sucesso antes de tentar abrir email
+      // Gravação confirmada — exibir tela de sucesso
       document.getElementById('form-card').style.display = 'none';
       document.getElementById('success-card').classList.add('visible');
       window.scrollTo({ top: 0, behavior: 'smooth' });
-
-      // Tentar abrir cliente de e-mail (melhor esforço — não bloqueia se falhar)
-      try {
-        var subject = encodeURIComponent('Análise de Necessidades — SEMEP');
-        var bodyEnc = encodeURIComponent(body);
-        var mailtoUrl = 'mailto:jonathan@iaqueatende.com.br?subject=' + subject + '&body=' + bodyEnc;
-        var link = document.createElement('a');
-        link.href = mailtoUrl;
-        link.click();
-      } catch (e) { /* silencioso — dados já estão na tela */ }
     }
   </script>
 
